@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 
 /* Models */
 import { Gif, SearchGifsResponse } from '../models/gifs.model';
@@ -11,6 +11,7 @@ export class GifsService {
   
   private _historial: string[] = [];
   private _API_KEY = 'TIgWllXNbwcNMuLRb7eg4OnBcml2Q00k';
+  private _SERVICE_URL = 'https://api.giphy.com/v1/gifs';
 
   public resultados: Gif[] = [];
 
@@ -46,7 +47,13 @@ export class GifsService {
       this._historial = this._historial.splice(0, 10);  
     }
 
-    this.http.get<SearchGifsResponse>(`https://api.giphy.com/v1/gifs/search?api_key=TIgWllXNbwcNMuLRb7eg4OnBcml2Q00k&q=${query}`)
+    /* Parametros Que Se Mandan Por La Url */
+    const params = new HttpParams()
+          .set('api_key', this._API_KEY)
+          .set('q', query)
+          .set('limit', '10');
+
+    this.http.get<SearchGifsResponse>(`${this._SERVICE_URL}/search`, { params: params })
         .subscribe(resp => {
           this.resultados = resp.data
           localStorage.setItem('resultados', JSON.stringify(this.resultados));
