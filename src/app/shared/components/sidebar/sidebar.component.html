@@ -3,7 +3,7 @@
 
     <hr class="text-white">
 
-    <div class="list-group list-reset" *ngFor="let item of historial">
-        <a href="#" class="list-group-item list-group-item-action">{{ item | titlecase }}</a>
+    <div class="list-group list-reset mb-2" *ngFor="let item of historial">
+        <a href="#" (click)="buscar(item)" class="list-group-item list-group-item-action">{{ item | titlecase }}</a>
     </div>
 </div>
